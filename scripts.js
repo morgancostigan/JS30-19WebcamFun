@@ -27,6 +27,10 @@ function paintToCanvas() {
     canvas.height = height; //sets canvas to match dimensions of video
     return  setInterval(() => {
         ctx.drawImage(video, 0, 0, width, height);
+        let  pixels = ctx.getImageData(0, 0, width, height); //take pixels out
+        pixels = redEffect(pixels); //manipulate pixels
+        ctx.putImageData(pixels, 0, 0); //put pixels back 
+        
     }, 16 ); //the interval is in milliseconds, in this case 16
 }// end paintToCanvas function
 
@@ -40,8 +44,16 @@ function takePhoto() {
     link.setAttribute('download', 'handsome');
     link.innerHTML = `<img src="${data}" alt="Handsome Fella" / >`
     strip.insertBefore(link, strip.firstChild); 
-    
 }// end takePhoto function
+
+function redEffect(pixels) {
+    for (let i = 0; i < pixels.data.length; i+=4) {
+        pixels.data[i + 0] = pixels.data[i + 0] + 10;  //red channel
+        pixels.data[i + 1] = pixels.data[i + 1] - 50; // green channel
+        pixels.data[i + 2] = pixels.data[i + 2] * .5; //blue channel 
+    }
+    return pixels;
+}
 
 getVideo();
 
