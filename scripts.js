@@ -4,4 +4,14 @@ const ctx = canvas.getContext('2d');
 const strip = document.querySelector('.strip');
 const snap = document.querySelector('.snap');
 
+console.log('kia ora');
 
+
+function getVideo() {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(localMediaStream => {
+        console.log(localMediaStream); 
+    });
+}//end getVideo function
+
+getVideo();
