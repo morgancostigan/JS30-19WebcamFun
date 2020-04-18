@@ -37,3 +37,5 @@ function takePhoto() {
 }// end takePhoto function
 
 getVideo();
+
+video.addEventListener('canplay', paintToCanvas); //will run paintToCanvas when video feed exists 
