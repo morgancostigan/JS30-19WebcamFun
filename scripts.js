@@ -23,7 +23,12 @@ function getVideo() {
 function paintToCanvas() {
     const width = video.videoWidth;
     const height = video.videoHeight;
-    console.log(width, height);
+    canvas.width = width;
+    canvas.height = height; //sets canvas to match dimensions of video
+
+    setInterval(() => {
+        ctx.drawImage(video, 0, 0, width, height);
+    }, 16); //the interval is in milliseconds, in this case 16
 }// end paintToCanvas function
 
 getVideo();
