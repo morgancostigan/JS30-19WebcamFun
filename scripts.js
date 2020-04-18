@@ -32,7 +32,14 @@ function paintToCanvas() {
 
 function takePhoto() {
     snap.currentTime = 0;
-    snap.play(); 
+    snap.play(); //plays snap sound
+    //now, to take the data out of canvas vvvvvvv
+    const data = canvas.toDataURL('img/ jpeg');
+    const link = document.createElement('a');
+    link.href = data;
+    link.setAttribute('download', 'handsome');
+    link.textContent = 'Download Image';
+    strip.insertBefore(link, strip.firstChild); 
     
 }// end takePhoto function
 
