@@ -25,10 +25,15 @@ function paintToCanvas() {
     const height = video.videoHeight;
     canvas.width = width;
     canvas.height = height; //sets canvas to match dimensions of video
-
-    setInterval(() => {
+    return  setInterval(() => {
         ctx.drawImage(video, 0, 0, width, height);
-    }, 16); //the interval is in milliseconds, in this case 16
+    }, 16 ); //the interval is in milliseconds, in this case 16
 }// end paintToCanvas function
+
+function takePhoto() {
+    snap.currentTime = 0;
+    snap.play(); 
+    
+}// end takePhoto function
 
 getVideo();
