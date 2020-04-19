@@ -29,15 +29,12 @@ function paintToCanvas() {
     return  setInterval(() => {
         ctx.drawImage(video, 0, 0, width, height);
         let  pixels = ctx.getImageData(0, 0, width, height); //take pixels out
-        console.log('pixels', pixels);
+        // console.log('pixels', pixels);
 
         // pixels = redEffect(pixels); //manipulate pixels
         // pixels = rgbSplit(pixels);
-        
         pixels = greenScreen(pixels);
-        // ctx.globalAlpha = .1; //creates ghosting effect
-        console.log('pixels 2', pixels);
-        
+        // ctx.globalAlpha = .1; //creates ghosting effect        
 
         ctx.putImageData(pixels, 0, 0); //put pixels back 
         
@@ -81,7 +78,7 @@ function greenScreen(pixels) {
         levels[input.name] = input.value;
     }); //takes info from all the rgb inputs
 
-    console.log(levels);
+    // console.log(levels);
 
     for (i = 0; i < pixels.data.length; i = i + 4) {
         red = pixels.data[i + 0];
