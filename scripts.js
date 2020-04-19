@@ -25,11 +25,20 @@ function paintToCanvas() {
     const height = video.videoHeight;
     canvas.width = width;
     canvas.height = height; //sets canvas to match dimensions of video
+
     return  setInterval(() => {
         ctx.drawImage(video, 0, 0, width, height);
         let  pixels = ctx.getImageData(0, 0, width, height); //take pixels out
+        console.log('pixels', pixels);
+
         // pixels = redEffect(pixels); //manipulate pixels
-        pixels = rgbSplit(pixels);
+        // pixels = rgbSplit(pixels);
+        
+        pixels = greenScreen(pixels);
+        // ctx.globalAlpha = .1; //creates ghosting effect
+        console.log('pixels 2', pixels);
+        
+
         ctx.putImageData(pixels, 0, 0); //put pixels back 
         
     }, 16 ); //the interval is in milliseconds, in this case 16
@@ -59,11 +68,40 @@ function redEffect(pixels) {
 function rgbSplit(pixels) {
     for (let i = 0; i < pixels.data.length; i += 4) {
         pixels.data[i - 150] = pixels.data[i + 0];  //red channel
-        pixels.data[i + 200] = pixels.data[i + 1]; // green channel
+        pixels.data[i + 500] = pixels.data[i + 1]; // green channel
         pixels.data[i - 350] = pixels.data[i + 2]; //blue channel 
     }
     return pixels;
 }//end rgbSplit function
+
+function greenScreen(pixels) {
+    const levels = {}; //holds your min and max green
+
+     document.querySelectorAll(' .rgb input').forEach((input) => {
+        levels[input.name] = input.value;
+    }); //takes info from all the rgb inputs
+
+    console.log(levels);
+
+    for (i = 0; i < pixels.data.length; i = i + 4) {
+        red = pixels.data[i + 0];
+        green = pixels.data[i + 1];
+        blue = pixels.data[i + 02];
+        alpha = pixels.data[i + 3];
+
+        if (red >= levels.rmin
+            && green >= levels.gmin
+            && blue >= levels.bmin
+            && red <= levels.rmax
+            && green <= levels.gmax
+            && blue <= levels.bmax) { //if the pixel lands between any of these values, remove it
+            pixels.data[i + 3] = 0;
+        }//end IF
+    }//end FOR loop
+
+    return pixels
+
+}//end greenScreen function
 
 getVideo();
 
